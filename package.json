@@ -16,6 +16,7 @@
     "react-icons": "^4.4.0",
     "react-transition-group": "^4.4.2",
     "tailwind-children": "^0.5.0",
+    "typewriter-effect": "^2.19.0",
     "uninstall": "0.0.0"
   },
   "devDependencies": {

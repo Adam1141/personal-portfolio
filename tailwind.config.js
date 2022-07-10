@@ -9,6 +9,10 @@ module.exports = {
 			fontFamily: {
 				finlandica: ['Finlandica', 'sans-serif'],
 			},
+			minHeight: {
+				'32': '8rem',
+				'40': '10rem',
+			},
 		},
 	},
 	plugins: [require('tailwind-children')],
