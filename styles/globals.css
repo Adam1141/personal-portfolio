@@ -33,3 +33,32 @@
 .selected-nav-link {
 	background: linear-gradient(0deg, rgb(112, 112, 112, 0.2) 1%, transparent 90%);
 }
+
+.custom-scrollbar {
+	@apply scrollbar-thin scrollbar-thumb:rounded-2xl scrollbar-thumb:bg-indigo-400 scrollbar-thumb:bg-opacity-40 dark:scrollbar-thumb:bg-indigo-700 dark:scrollbar-thumb:bg-opacity-40;
+}
+
+/* to override autocomplete/autofill styles */
+.dark input:-webkit-autofill,
+.dark input:-webkit-autofill:hover,
+.dark input:-webkit-autofill:focus input:-webkit-autofill,
+.dark textarea:-webkit-autofill,
+.dark textarea:-webkit-autofill:hover textarea:-webkit-autofill:focus,
+.dark select:-webkit-autofill,
+.dark select:-webkit-autofill:hover,
+.dark select:-webkit-autofill:focus {
+	-webkit-text-fill-color: rgb(229 231 235);
+	transition: 50000s !important;
+}
+
+input:-webkit-autofill,
+input:-webkit-autofill:hover,
+input:-webkit-autofill:focus input:-webkit-autofill,
+textarea:-webkit-autofill,
+textarea:-webkit-autofill:hover textarea:-webkit-autofill:focus,
+select:-webkit-autofill,
+select:-webkit-autofill:hover,
+select:-webkit-autofill:focus {
+	-webkit-text-fill-color: rgb(17 24 39);
+	transition: 50000s !important;
+}
