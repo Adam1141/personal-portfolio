@@ -10,6 +10,7 @@ import { m } from 'framer-motion';
 import { useEffect, useRef, useState } from 'react';
 import Typewriter from 'typewriter-effect/dist/core';
 import Link from 'next/link';
+import { MdOutlineDoubleArrow } from 'react-icons/md';
 
 const initialAboutMeStr = `I'm probably the most passionate developer you will ever get to work with.
 If you have a great project that needs some amazing skills, I'm your guy.`;
@@ -18,13 +19,32 @@ export default function Home() {
 	const [isMoreShown, setIsMoreShown] = useState(false);
 	const [isShowHireMeShown, setIsShowHireMeShown] = useState(true);
 	const moreDivRef = useRef<HTMLDivElement | null>(null);
+	const morePRef = useRef<HTMLParagraphElement | null>(null);
 	const twriterRef = useRef<Typewriter | null>(null);
 	const hireMeBtnRef = useRef<HTMLButtonElement | null>(null);
 	const tellMeMoreRef = useRef<HTMLParagraphElement | null>(null);
+	const thisPageRef = useRef<HTMLDivElement | null>(null);
+
+	useEffect(() => {
+		const resizeObserver = new ResizeObserver(() => {
+			if (moreDivRef?.current) {
+				const myDiv = moreDivRef.current;
+				myDiv?.scrollIntoView({
+					behavior: 'smooth',
+					block: 'end',
+					inline: 'nearest',
+				});
+			}
+		});
+		if (thisPageRef?.current) {
+			resizeObserver.observe(thisPageRef.current);
+		}
+		return () => resizeObserver.disconnect();
+	}, []);
 
 	useEffect(() => {
 		if (twriterRef.current === null) {
-			twriterRef.current = new Typewriter(moreDivRef.current, {
+			twriterRef.current = new Typewriter(morePRef.current, {
 				cursor: '',
 				delay: 30,
 				deleteSpeed: 1,
@@ -34,7 +54,7 @@ export default function Home() {
 		if (moreDivRef.current) {
 			if (
 				isMoreShown &&
-				moreDivRef.current.innerText.length === initialAboutMeStr.length
+				morePRef.current.innerText.length === initialAboutMeStr.length
 			) {
 				twriterRef.current
 					.deleteAll(1)
@@ -60,10 +80,10 @@ export default function Home() {
 					)
 					.pauseFor(1000)
 					.callFunction(() => {
-						hireMeBtnRef.current?.classList?.add('!border-2', '!h-10');
+						hireMeBtnRef.current?.classList?.add('!border-2', '!h-10', '!w-32');
 					})
 					.start();
-			} else if (moreDivRef.current.innerText.length === 0) {
+			} else if (morePRef.current.innerText.length === 0) {
 				twriterRef.current
 					.changeDelay(0.001)
 					.typeString(initialAboutMeStr)
@@ -76,16 +96,24 @@ export default function Home() {
 	}, [isMoreShown]);
 
 	return (
-		<div className="flex h-full flex-col gap-4 p-10 sm:pl-20 sm:pt-20">
+		<div
+			ref={thisPageRef}
+			className="flex h-full flex-col gap-4 p-10 sm:pl-20 sm:pt-20"
+		>
 			<h1 className="mb-6 flex flex-col gap-4 font-finlandica text-4xl sm:text-5xl">
 				<span className="">Hi, I'm Adam.</span>
 				<span className="text-gray-400">A Full Stack Developer</span>
 				<span className="text-gray-600">based in Israel.</span>
 			</h1>
 
-			<div className="mb-4 min-h-40 w-full max-w-lg text-justify leading-7">
+			<div
+				ref={moreDivRef}
+				className={`mb-4 min-h-40 w-full max-w-lg text-justify leading-7 ${
+					isMoreShown ? 'pb-10' : ''
+				}`}
+			>
 				<m.p
-					ref={moreDivRef}
+					ref={morePRef}
 					initial={{ opacity: 0, scale: 0.95 }}
 					animate={{ opacity: 1, scale: 1 }}
 					transition={{ duration: T_PAGE_SWAP_S * 2, delay: T_PAGE_SWAP_S }}
@@ -95,16 +123,16 @@ export default function Home() {
 					onClick={() => {
 						setIsMoreShown(true);
 					}}
-					className={`cursor-pointer text-sm text-gray-400 opacity-0 transition-all duration-300 hover:text-opacity-70 ${
+					className={`flex cursor-pointer items-center gap-x-1 text-sm text-gray-400 opacity-0 transition-all duration-300 hover:text-opacity-70 ${
 						isMoreShown ? 'hidden' : ''
 					}`}
 				>
-					tell me more
+					<MdOutlineDoubleArrow fill="rgb(156 163 175 / .7)" /> tell me more
 				</p>
 				<Link href="/contact">
 					<button
 						ref={hireMeBtnRef}
-						className={`hover:bg mt-4 h-0 overflow-hidden rounded-full border-0 border-indigo-800 px-6 py-1 font-bold transition-all duration-300 hover:rotate-1 hover:border-indigo-700 hover:bg-gray-500 hover:bg-opacity-20`}
+						className={`hover:bg mt-4 h-0 w-0 overflow-hidden rounded-full border-0 border-indigo-800 px-6 py-1 font-bold transition-all duration-300 hover:rotate-1 hover:border-indigo-700 hover:bg-gray-500 hover:bg-opacity-20`}
 					>
 						Hire Me
 					</button>
