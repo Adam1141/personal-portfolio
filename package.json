@@ -9,10 +9,14 @@
     "lint": "next lint"
   },
   "dependencies": {
+    "framer-motion": "^6.4.3",
     "next": "12.2.2",
     "react": "18.2.0",
     "react-dom": "18.2.0",
-    "tailwind-children": "^0.5.0"
+    "react-icons": "^4.4.0",
+    "react-transition-group": "^4.4.2",
+    "tailwind-children": "^0.5.0",
+    "uninstall": "0.0.0"
   },
   "devDependencies": {
     "@types/node": "^18.0.3",

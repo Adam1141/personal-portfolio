@@ -1,5 +1,7 @@
+import { m } from 'framer-motion';
+
 const Work = () => {
-	return <div>Work Page</div>;
+	return <m.div>Work Page</m.div>;
 };
 
 export default Work;

@@ -1,7 +1,35 @@
+@import url('https://fonts.googleapis.com/css2?family=Finlandica:ital,wght@1,700&family=Montserrat:wght@300&display=swap');
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
 
 * {
-	@apply text-gray-200;
+	@apply text-gray-200 selection:bg-indigo-900;
+}
+
+.main-container {
+	background: linear-gradient(
+		-45deg,
+		rgb(36, 32, 141),
+		rgb(17 24 39),
+		rgb(0 0 0)
+	);
+	background-size: 400% 400%;
+	animation: gradient 60s ease infinite;
+}
+
+@keyframes gradient {
+	0% {
+		background-position: 0% 50%;
+	}
+	50% {
+		background-position: 100% 50%;
+	}
+	100% {
+		background-position: 0% 50%;
+	}
+}
+
+.selected-nav-link {
+	background: linear-gradient(0deg, rgb(112, 112, 112, 0.2) 1%, transparent 90%);
 }

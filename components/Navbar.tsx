@@ -13,21 +13,26 @@ const Navbar = () => {
 	return (
 		<div className="flex h-16 items-center justify-between text-gray-200 children:flex children:h-full children:items-center">
 			<Link href="/">
-				<a className="px-6 transition-all duration-500 hover:bg-gray-700 hover:bg-opacity-10">
+				<a className="px-4 text-xl transition-all duration-500 hover:bg-gray-700 hover:bg-opacity-10 sm:px-6">
 					Adam.H
 				</a>
 			</Link>
 
 			<div>
-				{links.map((link, idx) => {
+				{links.map((link) => {
 					return (
-						<Link href={link.path}>
+						<Link key={link.path} href={link.path}>
 							<a
-								className={`flex h-full w-full items-center px-6 transition-all duration-200 hover:bg-indigo-300 hover:bg-opacity-20 ${
-									router.pathname === link.path ? 'bg-indigo-300 bg-opacity-20' : ''
+								className={`relative flex h-full w-full flex-col justify-center gap-y-2	px-4 transition-all duration-200 hover:bg-indigo-300 hover:bg-opacity-20 sm:px-6 ${
+									router.pathname === link.path ? 'selected-nav-link rounded-b-md' : ''
 								}`}
 							>
-								{link.title}
+								<span>{link.title}</span>
+								<span
+									className={`absolute left-0 bottom-0 h-1 w-full rounded-lg bg-indigo-700 opacity-0 transition-all duration-500 ${
+										router.pathname === link.path ? 'opacity-100' : ''
+									}`}
+								></span>
 							</a>
 						</Link>
 					);
