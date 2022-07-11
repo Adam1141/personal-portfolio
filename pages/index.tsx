@@ -80,12 +80,14 @@ export default function Home() {
 					)
 					.pauseFor(1000)
 					.callFunction(() => {
+						console.log('called!!!');
+
 						hireMeBtnRef.current?.classList?.add('!border-2', '!h-10', '!w-32');
 					})
 					.start();
 			} else if (morePRef.current.innerText.length === 0) {
 				twriterRef.current
-					.changeDelay(0.001)
+					.changeDelay(1)
 					.typeString(initialAboutMeStr)
 					.callFunction(() => {
 						tellMeMoreRef.current?.classList.add('!opacity-100');
@@ -108,9 +110,7 @@ export default function Home() {
 
 			<div
 				ref={moreDivRef}
-				className={`mb-4 min-h-40 w-full max-w-lg text-justify leading-7 ${
-					isMoreShown ? 'pb-10' : ''
-				}`}
+				className={`mb-4 min-h-48 w-full max-w-lg pb-10 text-justify leading-7`}
 			>
 				<m.p
 					ref={morePRef}
