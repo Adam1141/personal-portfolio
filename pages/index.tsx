@@ -136,7 +136,7 @@ export default function Home() {
 				<Link href="/contact">
 					<button
 						ref={hireMeBtnRef}
-						className={`hover:bg mt-4 hidden h-0 w-0 overflow-hidden rounded-full border-0 border-indigo-800 px-6 py-1 font-bold transition-all duration-300 hover:rotate-1 hover:border-indigo-700 hover:bg-gray-500 hover:bg-opacity-20`}
+						className={`mt-4 h-0 w-0 overflow-hidden rounded-full border-0 border-indigo-800 px-6 py-1 font-bold transition-all duration-300 hover:rotate-1 hover:border-indigo-700 hover:bg-gray-500 hover:bg-opacity-20`}
 					>
 						Hire Me
 					</button>
