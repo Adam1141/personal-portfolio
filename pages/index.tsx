@@ -80,9 +80,12 @@ export default function Home() {
 					)
 					.pauseFor(1000)
 					.callFunction(() => {
-						console.log('called!!!');
-
-						hireMeBtnRef.current?.classList?.add('!border-2', '!h-10', '!w-32');
+						hireMeBtnRef.current?.classList?.add(
+							'!border-2',
+							'!h-10',
+							'!w-32',
+							'!block',
+						);
 					})
 					.start();
 			} else if (morePRef.current.innerText.length === 0) {
@@ -110,7 +113,8 @@ export default function Home() {
 
 			<div
 				ref={moreDivRef}
-				className={`mb-4 min-h-48 w-full max-w-lg pb-10 text-justify leading-7`}
+				className={`pb-5 mb-4 min-h-48 w-full max-w-lg text-justify leading-7 sm:min-h-48
+				 sm:pb-10`}
 			>
 				<m.p
 					ref={morePRef}
@@ -132,7 +136,7 @@ export default function Home() {
 				<Link href="/contact">
 					<button
 						ref={hireMeBtnRef}
-						className={`hover:bg mt-4 h-0 w-0 overflow-hidden rounded-full border-0 border-indigo-800 px-6 py-1 font-bold transition-all duration-300 hover:rotate-1 hover:border-indigo-700 hover:bg-gray-500 hover:bg-opacity-20`}
+						className={`hover:bg mt-4 hidden h-0 w-0 overflow-hidden rounded-full border-0 border-indigo-800 px-6 py-1 font-bold transition-all duration-300 hover:rotate-1 hover:border-indigo-700 hover:bg-gray-500 hover:bg-opacity-20`}
 					>
 						Hire Me
 					</button>

@@ -1,9 +1,11 @@
 import { m } from 'framer-motion';
-import { useRef, useState } from 'react';
+import { useState } from 'react';
 import TextInput from '../components/TextInput';
-import { T_STEP_S } from '../constants';
+import { EMAIL, T_STEP_S } from '../constants';
 import { useSnackbar } from 'notistack';
 import validator from 'validator';
+import { FiCopy } from 'react-icons/fi';
+import copy from 'copy-to-clipboard';
 
 const Contact = () => {
 	const [name, setName] = useState('');
@@ -61,6 +63,7 @@ const Contact = () => {
 					vertical: 'top',
 					horizontal: 'center',
 				},
+				className: '!bg-indigo-500',
 			});
 		} catch (e) {
 			enqueueSnackbar(e.message, {
@@ -76,46 +79,100 @@ const Contact = () => {
 	return (
 		<div className="flex">
 			<div
-				className={`flex w-full max-w-3xl flex-1 flex-col gap-8 px-5 py-10 sm:px-10`}
+				className={`flex w-full max-w-3xl flex-1 flex-col gap-6 px-5 py-10 sm:gap-8 sm:px-10`}
 			>
-				<m.div
-					initial={{ opacity: 0, x: -50, y: 50 }}
-					animate={{ opacity: 1, x: 0, y: 0 }}
-					transition={{ duration: T_STEP_S * 4, delay: T_STEP_S * 2 }}
-					exit={{ opacity: 0, x: 100 }}
-					className="flex w-full max-w-xs children:flex-1"
-				>
-					<TextInput
-						inputFor={'Name'}
-						inputType={'text'}
-						inputValue={name}
-						setInputValue={(val) => {
-							// solves some problem with autofill
-							setTimeout(() => {
-								setName(val);
-							}, 0);
-						}}
-					/>
-				</m.div>
-				<m.div
-					initial={{ opacity: 0, x: -50, y: 50 }}
-					animate={{ opacity: 1, x: 0, y: 0 }}
-					transition={{ duration: T_STEP_S * 4, delay: T_STEP_S * 3 }}
-					exit={{ opacity: 0, x: 100 }}
-					className="flex w-full max-w-xs children:flex-1"
-				>
-					<TextInput
-						inputFor={'Email'}
-						inputType={'text'}
-						inputValue={email}
-						setInputValue={(val) => {
-							// solves some problem with autofill
-							setTimeout(() => {
-								setEmail(val);
-							}, 0);
-						}}
-					/>
-				</m.div>
+				{/* contact directly hint #2, shown on small screens */}
+				<div className="h-fit flex-1 border-l-2 border-indigo-700 px-2 sm:hidden">
+					<h2 className="text-xs">feel free to contact directly at</h2>
+					<div className="flex items-center gap-2 text-sm">
+						<a
+							className="pl-2 transition-opacity duration-300 hover:opacity-70"
+							href={`mailto://${EMAIL}`}
+						>
+							{EMAIL}
+						</a>
+						<span
+							onClick={() => copy(EMAIL)}
+							className="cursor-pointer text-xl transition-opacity duration-200 hover:opacity-70 sm:text-base"
+						>
+							<FiCopy />
+						</span>
+					</div>
+				</div>
+
+				{/* top container */}
+				<div className="flex gap-4">
+					<div className="flex flex-1 flex-col gap-8">
+						{/* name div */}
+						<m.div
+							initial={{ opacity: 0, x: -50, y: 50 }}
+							animate={{ opacity: 1, x: 0, y: 0 }}
+							transition={{ duration: T_STEP_S * 4, delay: T_STEP_S * 2 }}
+							exit={{ opacity: 0, x: 100 }}
+							className="flex w-full max-w-xs children:flex-1"
+						>
+							<TextInput
+								inputFor={'Name'}
+								inputType={'text'}
+								inputValue={name}
+								setInputValue={(val) => {
+									// solves some problem with autofill
+									setTimeout(() => {
+										setName(val);
+									}, 0);
+								}}
+							/>
+						</m.div>
+
+						{/* email div */}
+						<m.div
+							initial={{ opacity: 0, x: -50, y: 50 }}
+							animate={{ opacity: 1, x: 0, y: 0 }}
+							transition={{ duration: T_STEP_S * 4, delay: T_STEP_S * 3 }}
+							exit={{ opacity: 0, x: 100 }}
+							className="flex w-full max-w-xs children:flex-1"
+						>
+							<TextInput
+								inputFor={'Email'}
+								inputType={'text'}
+								inputValue={email}
+								setInputValue={(val) => {
+									// solves some problem with autofill
+									setTimeout(() => {
+										setEmail(val);
+									}, 0);
+								}}
+							/>
+						</m.div>
+					</div>
+
+					{/* contact directly hint #1, shown on med+ screens */}
+					<m.div
+						initial={{ opacity: 0, x: 50, y: -50 }}
+						animate={{ opacity: 1, x: 0, y: 0 }}
+						transition={{ duration: T_STEP_S * 4, delay: T_STEP_S * 6 }}
+						exit={{ opacity: 0, x: 100 }}
+						className="hidden h-fit flex-1 border-l-2 border-indigo-700 px-2 sm:block"
+					>
+						<h2 className="text-xs">feel free to contact directly at</h2>
+						<div className="flex items-center gap-2 text-sm">
+							<a
+								className="pl-2 transition-opacity duration-300 hover:opacity-70"
+								href={`mailto://${EMAIL}`}
+							>
+								{EMAIL}
+							</a>
+							<span
+								onClick={() => copy(EMAIL)}
+								className="cursor-pointer transition-opacity duration-200 hover:opacity-70"
+							>
+								<FiCopy />
+							</span>
+						</div>
+					</m.div>
+				</div>
+
+				{/* message textarea */}
 				<m.textarea
 					initial={{ opacity: 0, x: -50, y: 50 }}
 					animate={{ opacity: 1, x: 0, y: 0 }}
@@ -132,6 +189,8 @@ const Contact = () => {
 					}}
 					placeholder={`message..`}
 				></m.textarea>
+
+				{/* send button */}
 				<m.button
 					onClick={() => handleSendMessage()}
 					initial={{ opacity: 0, x: -100 }}

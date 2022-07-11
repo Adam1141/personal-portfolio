@@ -8,6 +8,7 @@ import { MessagesFilter, MessageType } from '../@types/types';
 import { MdDeleteForever } from 'react-icons/md';
 import { FiCopy } from 'react-icons/fi';
 import copy from 'copy-to-clipboard';
+import { useSnackbar } from 'notistack';
 
 interface IMessageListProps {
 	initialMessages: MessageType[];
@@ -24,9 +25,9 @@ function getEmptyMessagesFilter(): MessagesFilter {
 
 const MessageList: FC<IMessageListProps> = ({ initialMessages }) => {
 	const [messages, setMessages] = useState(initialMessages);
-	const [filteredMessages, setFilteredMessages] = useState(messages);
-
 	const [filter, setFilter] = useState<MessagesFilter>(getEmptyMessagesFilter());
+
+	const { enqueueSnackbar, closeSnackbar } = useSnackbar();
 
 	async function handleToggleMessageRead(msg: MessageType) {
 		// toggle message read/unread for a given message
@@ -64,8 +65,33 @@ const MessageList: FC<IMessageListProps> = ({ initialMessages }) => {
 		}
 	}
 
+	function showFetchedMessagesSnackbar() {
+		enqueueSnackbar(
+			`${
+				messages && messages.length > 0
+					? `${messages.length} messages found`
+					: `no messages found`
+			} `,
+			{
+				variant: messages && messages.length > 0 ? 'success' : 'warning',
+				anchorOrigin: {
+					horizontal: 'center',
+					vertical: 'top',
+				},
+				className: `${
+					messages && messages.length > 0 ? `!bg-indigo-500` : `!bg-yellow-600`
+				}`,
+			},
+		);
+	}
+
+	useEffect(() => {
+		showFetchedMessagesSnackbar();
+	}, []);
+
 	return (
 		<div className="flex w-full flex-1 basis-0 flex-col gap-0">
+			{/* header row div */}
 			<m.div
 				className={`flex w-full gap-4 bg-gray-900 px-2 py-2 children:flex-2 children:px-2 children:font-semibold`}
 			>
@@ -75,6 +101,8 @@ const MessageList: FC<IMessageListProps> = ({ initialMessages }) => {
 				<p className="flex !flex-1/2 justify-center">Read</p>
 				<p className="flex !flex-1/2 justify-center"></p>
 			</m.div>
+
+			{/* message rows */}
 			{messages && messages.length !== 0 ? (
 				messages.map((msg, idx) => {
 					return (
@@ -115,7 +143,7 @@ const MessageList: FC<IMessageListProps> = ({ initialMessages }) => {
 					);
 				})
 			) : (
-				<m.div></m.div>
+				<m.div>No messages yet</m.div>
 			)}
 		</div>
 	);

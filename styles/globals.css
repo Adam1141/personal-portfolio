@@ -5,6 +5,7 @@
 
 * {
 	@apply text-gray-200 selection:bg-indigo-900;
+	box-sizing: border-box !important;
 }
 
 .main-container {
