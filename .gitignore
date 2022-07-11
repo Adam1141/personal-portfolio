@@ -34,3 +34,7 @@ yarn-error.log*
 
 # prisma sqlite db
 /prisma/dev.db
+
+
+.env
+.env*.local

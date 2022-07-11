@@ -12,9 +12,14 @@ export default async function handler(
 		});
 	}
 	try {
-		const allMessages = await prisma.message.findMany();
+		const allMessages = await prisma.message.findMany({
+			take: 100,
+			orderBy: {
+				createdAt: 'desc',
+			},
+		});
 		// console.log('allMessages: ', allMessages);
-		return res.send({ ok: true, allMessages });
+		return res.send({ ok: true, messages: allMessages });
 	} catch {
 		return res.send({ ok: false });
 	}

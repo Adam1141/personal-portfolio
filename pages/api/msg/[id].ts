@@ -39,19 +39,25 @@ async function handleGET(msgId: string, res: NextApiResponse) {
 
 async function handlePUT(msgId: string, res: NextApiResponse) {
 	try {
-		const msg = await prisma.message.update({
+		let msg = await prisma.message.findUniqueOrThrow({
+			where: {
+				id: Number(msgId),
+			},
+		});
+
+		msg = await prisma.message.update({
 			where: {
 				id: Number(msgId),
 			},
 			data: {
-				isRead: true,
+				isRead: !msg.isRead,
 			},
 		});
-		console.log('msg: ', msg);
+		// console.log('msg: ', msg);
 
 		return res.send({
 			ok: true,
-			msg: `Marked as read for message with id=${msgId}`,
+			msg: `Marked message with id=${msgId} as ${msg.isRead ? 'read' : 'unread'}.`,
 		});
 	} catch {
 		return res.send({ ok: false, msg: `Message with id=${msgId} not found.` });
