@@ -21,7 +21,8 @@ export default async function handler(
 		});
 		// console.log('newMsg: ', newMsg);
 		return res.send({ ok: true });
-	} catch {
-		return res.send({ ok: false });
+	} catch (e) {
+		console.log(e);
+		return res.send({ ok: false, msg: 'Something went wrong, try again soon!' });
 	}
 }

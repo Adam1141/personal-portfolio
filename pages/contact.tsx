@@ -1,12 +1,77 @@
 import { m } from 'framer-motion';
-import { useState } from 'react';
+import { useRef, useState } from 'react';
 import TextInput from '../components/TextInput';
 import { T_STEP_S } from '../constants';
+import { useSnackbar } from 'notistack';
+import validator from 'validator';
 
 const Contact = () => {
 	const [name, setName] = useState('');
 	const [email, setEmail] = useState('');
 	const [message, setMessage] = useState('');
+
+	const { enqueueSnackbar, closeSnackbar } = useSnackbar();
+
+	function getMessageFields() {
+		// returns a message object or throws an error
+		// with a descriptive message
+		const fieldsObj = {
+			name,
+			email,
+			message,
+		};
+
+		// check that no fields are empty
+		Object.entries(fieldsObj).forEach(([k, v]) => {
+			if (typeof v !== 'string' || v.trim() === '') {
+				throw new Error(`${k} cannot be empty`);
+			}
+		});
+
+		// validate email
+		if (!validator.isEmail(fieldsObj.email)) {
+			throw new Error(`"${fieldsObj.email}" is not a valid email address`);
+		}
+
+		return fieldsObj;
+	}
+
+	function emptyMessageFields() {
+		setName('');
+		setEmail('');
+		setMessage('');
+	}
+
+	async function handleSendMessage() {
+		try {
+			const msgObj = getMessageFields();
+			const result = await fetch('/api/msg', {
+				method: 'POST',
+				body: JSON.stringify(msgObj),
+				headers: {
+					'Content-Type': 'application/json',
+				},
+			}).then((response) => response.json());
+
+			if (!result.ok) throw new Error(result?.msg ?? 'Something went wrong');
+			emptyMessageFields();
+			enqueueSnackbar('message sent', {
+				variant: 'success',
+				anchorOrigin: {
+					vertical: 'top',
+					horizontal: 'center',
+				},
+			});
+		} catch (e) {
+			enqueueSnackbar(e.message, {
+				variant: 'error',
+				anchorOrigin: {
+					vertical: 'top',
+					horizontal: 'center',
+				},
+			});
+		}
+	}
 
 	return (
 		<div className="flex">
@@ -68,6 +133,7 @@ const Contact = () => {
 					placeholder={`message..`}
 				></m.textarea>
 				<m.button
+					onClick={() => handleSendMessage()}
 					initial={{ opacity: 0, x: -100 }}
 					animate={{ opacity: 1, x: 0 }}
 					transition={{ duration: T_STEP_S * 4, delay: T_STEP_S * 5 }}

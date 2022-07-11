@@ -6,6 +6,8 @@ import { BsFillCheckSquareFill } from 'react-icons/bs';
 import { ImCheckboxUnchecked } from 'react-icons/im';
 import { MessagesFilter, MessageType } from '../@types/types';
 import { MdDeleteForever } from 'react-icons/md';
+import { FiCopy } from 'react-icons/fi';
+import copy from 'copy-to-clipboard';
 
 interface IMessageListProps {
 	initialMessages: MessageType[];
@@ -84,8 +86,18 @@ const MessageList: FC<IMessageListProps> = ({ initialMessages }) => {
 								className={`absolute left-0 top-0 h-full !w-1 flex-grow-0 basis-0 overflow-hidden rounded-full bg-indigo-500 !px-0 opacity-0 group-hover:opacity-100`}
 							></div>
 							<p>{msg.name}</p>
-							<p>{msg.email}</p>
-							<p>{dayjs(msg.createdAt).format('YYYY-MM-DD HH:mm:ss')}</p>
+							<p className="group flex items-center gap-2">
+								{msg.email}
+								<span
+									onClick={() => copy(msg.email)}
+									className="text-xl opacity-0 transition-opacity duration-200 hover:!opacity-70 group-hover:opacity-100"
+								>
+									<FiCopy />
+								</span>
+							</p>
+							<p className="font-mono text-sm">
+								{dayjs(msg.createdAt).format('YYYY-MM-DD HH:mm:ss')}
+							</p>
 							<p className="flex !flex-1/2 cursor-pointer justify-center text-xl">
 								<span onClick={() => handleToggleMessageRead(msg)} className="w-fit">
 									{msg.isRead ? <BsFillCheckSquareFill /> : <ImCheckboxUnchecked />}

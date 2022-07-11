@@ -8,6 +8,8 @@ module.exports = {
 		extend: {
 			fontFamily: {
 				finlandica: ['Finlandica', 'sans-serif'],
+				mono: ['ui-monospace', 'SFMono-Regular', 'Menlo', 'Monaco', 'Consolas', "Liberation Mono", "Courier New", 'monospaces'],
+				serif: ['ui-serif', 'Georgia', 'Cambria', "Times New Roman", 'Times', 'serif']
 			},
 			fontSize: {
 				xxxs: '.25rem',
