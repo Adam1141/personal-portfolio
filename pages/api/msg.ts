@@ -1,5 +1,6 @@
 import prisma from '../../lib/prisma';
 import { NextApiRequest, NextApiResponse } from 'next';
+import applyRateLimit from '../../lib/rateLimit';
 
 export default async function handler(
 	req: NextApiRequest,
@@ -11,7 +12,13 @@ export default async function handler(
 			msg: `The HTTP ${req.method} method is not supported at this route.`,
 		});
 	}
+
 	try {
+		// rate limit for messages 2 -> 15 minutes
+		// if limit is reached will send a response
+		// and stop further execution on the req
+		await applyRateLimit(req, res);
+		
 		const newMsg = await prisma.message.create({
 			data: {
 				name: req.body.name,
