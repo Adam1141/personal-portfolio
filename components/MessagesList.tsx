@@ -86,7 +86,7 @@ const MessageList: FC<IMessageListProps> = ({ initialMessages }) => {
 	}
 
 	useEffect(() => {
-		showFetchedMessagesSnackbar();
+		// showFetchedMessagesSnackbar();
 	}, []);
 
 	return (
@@ -143,7 +143,7 @@ const MessageList: FC<IMessageListProps> = ({ initialMessages }) => {
 					);
 				})
 			) : (
-				<m.div>No messages yet</m.div>
+				<m.div className='text-center py-6 font-semibold'>No messages yet</m.div>
 			)}
 		</div>
 	);

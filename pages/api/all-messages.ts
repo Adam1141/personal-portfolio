@@ -1,10 +1,18 @@
 import prisma from '../../lib/prisma';
 import { NextApiRequest, NextApiResponse } from 'next';
+import { sessionValidityCheck, withSessionRoute } from '../../lib/withSession';
 
-export default async function handler(
-	req: NextApiRequest,
-	res: NextApiResponse,
-) {
+export default withSessionRoute(handler);
+async function handler(req: NextApiRequest, res: NextApiResponse) {
+	// check if authorized
+	await sessionValidityCheck(req.session);
+	if (req.session?.isAdmin !== true) {
+		return res.send({
+			ok: false,
+			msg: `Unauthorized`,
+		});
+	}
+
 	if (req.method !== 'GET') {
 		return res.send({
 			ok: false,

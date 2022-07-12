@@ -17,7 +17,6 @@ If you have a great project that needs some amazing skills, I'm your guy.`;
 
 export default function Home() {
 	const [isMoreShown, setIsMoreShown] = useState(false);
-	const [isShowHireMeShown, setIsShowHireMeShown] = useState(true);
 	const moreDivRef = useRef<HTMLDivElement | null>(null);
 	const morePRef = useRef<HTMLParagraphElement | null>(null);
 	const twriterRef = useRef<Typewriter | null>(null);

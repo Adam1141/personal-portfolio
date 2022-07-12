@@ -9,3 +9,4 @@ export const T_STEP_S = 0.125;
 // other
 export const YEAR_BORN = 2000;
 export const MONTH_BORN = 5;
+export const SESSION_VALIDITY_S = 24 * 60 * 60;
