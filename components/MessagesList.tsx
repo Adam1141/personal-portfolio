@@ -9,6 +9,7 @@ import { MdDeleteForever } from 'react-icons/md';
 import { FiCopy } from 'react-icons/fi';
 import copy from 'copy-to-clipboard';
 import { useSnackbar } from 'notistack';
+import MessageInfoModal from './MessageInfoModal';
 
 interface IMessageListProps {
 	initialMessages: MessageType[];
@@ -26,6 +27,10 @@ function getEmptyMessagesFilter(): MessagesFilter {
 const MessageList: FC<IMessageListProps> = ({ initialMessages }) => {
 	const [messages, setMessages] = useState(initialMessages);
 	const [filter, setFilter] = useState<MessagesFilter>(getEmptyMessagesFilter());
+
+	// to view message content (in a modal component)
+	const [isMessageModalOpen, setIsMessageModalOpen] = useState(false);
+	const [currentMessage, setCurrentMessage] = useState<MessageType | null>(null);
 
 	const { enqueueSnackbar, closeSnackbar } = useSnackbar();
 
@@ -65,6 +70,16 @@ const MessageList: FC<IMessageListProps> = ({ initialMessages }) => {
 		}
 	}
 
+	function handleShowMessage(msg: MessageType) {
+		setIsMessageModalOpen(true);
+		setCurrentMessage(msg);
+
+		// toggle isRead of first time opening only
+		if (!msg.isRead) {
+			handleToggleMessageRead(msg);
+		}
+	}
+
 	function showFetchedMessagesSnackbar() {
 		enqueueSnackbar(
 			`${
@@ -90,51 +105,66 @@ const MessageList: FC<IMessageListProps> = ({ initialMessages }) => {
 	}, []);
 
 	return (
-		<div className="flex w-full flex-1 basis-0 flex-col gap-0">
-			{/* header row div */}
+		<div className="custom-scrollbar flex w-full flex-1 basis-0 flex-col gap-0 overflow-auto">
+			{/* list header row div */}
 			<m.div
-				className={`flex w-full gap-4 bg-gray-900 px-2 py-2 children:flex-2 children:px-2 children:font-semibold`}
+				className={`flex w-full min-w-5xl gap-4 bg-gray-900 px-2 py-2 children:px-2 children:font-semibold `}
 			>
-				<p>Name</p>
-				<p>Email</p>
-				<p>Time</p>
+				<p className="flex-1">Name</p>
+				<p className="flex-2">Email</p>
+				<p className="flex-2">Time</p>
 				<p className="flex !flex-1/2 justify-center">Read</p>
 				<p className="flex !flex-1/2 justify-center"></p>
 			</m.div>
 
-			<div className="custom-scrollbar flex flex-1 basis-0 flex-col overflow-y-auto">
+			<div className="custom-scrollbar flex min-w-5xl flex-1 basis-0 flex-col overflow-y-auto ">
 				{/* message rows */}
 				{messages && messages.length !== 0 ? (
 					messages.map((msg, idx) => {
 						return (
 							<m.div
-								className={`group relative flex w-full cursor-pointer items-center gap-4 px-2 py-3 children:flex-2 children:px-2`}
+								onClick={() => handleShowMessage(msg)}
+								className={`group relative flex w-full cursor-pointer items-center gap-4 px-2 py-3 children:px-2 `}
 								key={msg.createdAt.toString() + idx}
 							>
 								<div
 									className={`absolute left-0 top-0 h-full !w-1 flex-grow-0 basis-0 overflow-hidden rounded-full bg-indigo-500 !px-0 opacity-0 group-hover:opacity-100`}
 								></div>
-								<p>{msg.name}</p>
-								<p className="group flex items-center gap-2">
-									{msg.email}
+								<p className="flex flex-1 overflow-hidden">
+									<span className="w-[90%] truncate">{msg.name}</span>
+								</p>
+								<p className="group flex flex-2 items-center gap-2 overflow-hidden">
+									<span className="w-[80%] truncate">{msg.email}</span>
 									<span
-										onClick={() => copy(msg.email)}
-										className="text-xl opacity-0 transition-opacity duration-200 hover:!opacity-70 group-hover:opacity-100"
+										onClick={(e) => {
+											e.stopPropagation();
+											copy(msg.email);
+										}}
+										className="text-xl sm:opacity-0 transition-opacity duration-200 hover:!opacity-70 group-hover:opacity-100"
 									>
 										<FiCopy />
 									</span>
 								</p>
-								<p className="font-mono text-sm">
+								<p className="flex-2 font-mono text-sm">
 									{dayjs(msg.createdAt).format('YYYY-MM-DD HH:mm:ss')}
 								</p>
 								<p className="flex !flex-1/2 cursor-pointer justify-center text-xl">
-									<span onClick={() => handleToggleMessageRead(msg)} className="w-fit">
+									<span
+										onClick={(e) => {
+											e.stopPropagation();
+											handleToggleMessageRead(msg);
+										}}
+										className="w-fit"
+									>
 										{msg.isRead ? <BsFillCheckSquareFill /> : <ImCheckboxUnchecked />}
 									</span>
 								</p>
-								<p className="flex !flex-1/2 cursor-pointer justify-center text-xl opacity-0 transition-opacity duration-200 group-hover:opacity-100">
+								<p className="flex !flex-1/2 cursor-pointer justify-center text-xl sm:opacity-0 transition-opacity duration-200 group-hover:opacity-100">
 									<span
-										onClick={() => handleDeleteMessage(msg)}
+										onClick={(e) => {
+											e.stopPropagation();
+											handleDeleteMessage(msg);
+										}}
 										className="text-2xl transition-opacity duration-200 hover:opacity-70"
 									>
 										<MdDeleteForever />
@@ -147,6 +177,13 @@ const MessageList: FC<IMessageListProps> = ({ initialMessages }) => {
 					<m.div className="py-6 text-center font-semibold">No messages yet</m.div>
 				)}
 			</div>
+
+			{/* single message modal */}
+			<MessageInfoModal
+				msg={currentMessage}
+				isOpen={isMessageModalOpen}
+				setIsOpen={setIsMessageModalOpen}
+			/>
 		</div>
 	);
 };
