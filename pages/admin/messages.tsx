@@ -1,20 +1,10 @@
 import dayjs from 'dayjs';
 import { m } from 'framer-motion';
-import { readFileSync } from 'fs';
-import { NextServer } from 'next/dist/server/next';
-import { useRouter } from 'next/router';
-import { NextResponse } from 'next/server';
-import path from 'path';
 import { env } from 'process';
-import { useEffect } from 'react';
 import MessageList from '../../components/MessagesList';
 import { withSessionSsr } from '../../lib/withSession';
 
-const Messages = ({ initialMessages, isAdmin }) => {
-	const router = useRouter();
-	useEffect(() => {
-		if (!isAdmin) router.push('/');
-	}, []);
+const Messages = ({ initialMessages }) => {
 	return (
 		<m.div className="flex h-full w-full flex-col">
 			<h1 className="mt-4 mb-8 text-3xl font-semibold">Admin Messages</h1>
@@ -31,14 +21,16 @@ export const getServerSideProps = withSessionSsr(
 			(req.session?.validUntil && dayjs(req.session.validUntil).isBefore(dayjs()))
 		) {
 			await req.session.destroy();
-			return { props: { initialMessages: [], isAdmin: false } };
+			return {
+				notFound: true,
+			};
 		}
 
 		const res = await fetch(`${env.SERVER}/api/all-messages`).then((response) =>
 			response.json(),
 		);
 
-		return { props: { initialMessages: res?.messages ?? [], isAdmin: true } };
+		return { props: { initialMessages: res?.messages ?? [] } };
 	},
 );
 

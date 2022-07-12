@@ -13,6 +13,7 @@ function MyApp({ Component, pageProps }) {
 				<LazyMotion features={domAnimation}>
 					<AnimatePresence exitBeforeEnter>
 						<m.div
+							className="flex-1 basis-0"
 							key={router.route.concat(slideRight.name)}
 							initial="initial"
 							animate="animate"
