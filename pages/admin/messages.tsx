@@ -1,8 +1,7 @@
-import dayjs from 'dayjs';
 import { m } from 'framer-motion';
-import { env } from 'process';
 import MessageList from '../../components/MessagesList';
-import { withSessionSsr } from '../../lib/withSession';
+import { sessionValidityCheck, withSessionSsr } from '../../lib/withSession';
+import { getAllMessages } from '../api/all-messages';
 
 const Messages = ({ initialMessages }) => {
 	return (
@@ -16,21 +15,35 @@ const Messages = ({ initialMessages }) => {
 export const getServerSideProps = withSessionSsr(
 	async function getServerSideProps(ctx) {
 		const { req } = ctx;
-		if (
-			req.session?.isAdmin !== true ||
-			(req.session?.validUntil && dayjs(req.session.validUntil).isBefore(dayjs()))
-		) {
-			await req.session.destroy();
+		if (!(await sessionValidityCheck(req.session))) {
 			return {
 				notFound: true,
 			};
 		}
 
-		const res = await fetch(`${env.SERVER}/api/all-messages`).then((response) =>
-			response.json(),
-		);
+		try {
+			let allMessages = await getAllMessages();
 
-		return { props: { initialMessages: res?.messages ?? [] } };
+			/*
+				to fix this:
+				Error: Error serializing `.initialMessages[0].createdAt` returned from `getServerSideProps` in "/admin/messages".
+				Reason: `object` ("[object Date]") cannot be serialized as JSON. Please only return JSON serializable data types.
+			*/
+			allMessages = allMessages.map((msg) => {
+				Object.entries(msg).forEach(([k, v]) => {
+					if (Object.prototype.toString.call(v) === '[object Date]') {
+						// @ts-ignore
+						msg[k] = v.toISOString();
+					}
+				});
+				return msg;
+			});
+
+			return { props: { initialMessages: allMessages ?? [] } };
+		} catch (e) {
+			console.log(e);
+			return { props: { initialMessages: [] } };
+		}
 	},
 );
 

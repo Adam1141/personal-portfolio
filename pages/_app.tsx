@@ -8,8 +8,8 @@ import { SnackbarProvider } from 'notistack';
 function MyApp({ Component, pageProps }) {
 	const router = useRouter();
 	return (
-		<Layout>
-			<SnackbarProvider maxSnack={3}>
+		<SnackbarProvider maxSnack={3}>
+			<Layout>
 				<LazyMotion features={domAnimation}>
 					<AnimatePresence exitBeforeEnter>
 						<m.div
@@ -25,8 +25,8 @@ function MyApp({ Component, pageProps }) {
 						</m.div>
 					</AnimatePresence>
 				</LazyMotion>
-			</SnackbarProvider>
-		</Layout>
+			</Layout>
+		</SnackbarProvider>
 	);
 }
 

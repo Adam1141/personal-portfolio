@@ -20,15 +20,19 @@ async function handler(req: NextApiRequest, res: NextApiResponse) {
 		});
 	}
 	try {
-		const allMessages = await prisma.message.findMany({
-			take: 100,
-			orderBy: {
-				createdAt: 'desc',
-			},
-		});
+		const allMessages = await getAllMessages();
 		// console.log('allMessages: ', allMessages);
 		return res.send({ ok: true, messages: allMessages });
-	} catch {
-		return res.send({ ok: false });
+	} catch (e) {
+		return res.send({ ok: false, msg: e.message });
 	}
+}
+
+export async function getAllMessages() {
+	return await prisma.message.findMany({
+		take: 100,
+		orderBy: {
+			createdAt: 'desc',
+		},
+	});
 }

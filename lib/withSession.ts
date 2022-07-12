@@ -39,7 +39,10 @@ export function withSessionSsr<
 // accessing session object inside of middleware.
 // must call this before access validations in all API routes
 export async function sessionValidityCheck(session: IronSession) {
+	// return true if and only if session is ok/valid
 	if (session?.validUntil && dayjs(session.validUntil).isBefore(dayjs())) {
 		await session.destroy();
 	}
+	if (session?.isAdmin === true) return true;
+	return false;
 }

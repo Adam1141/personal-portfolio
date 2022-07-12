@@ -102,49 +102,51 @@ const MessageList: FC<IMessageListProps> = ({ initialMessages }) => {
 				<p className="flex !flex-1/2 justify-center"></p>
 			</m.div>
 
-			{/* message rows */}
-			{messages && messages.length !== 0 ? (
-				messages.map((msg, idx) => {
-					return (
-						<m.div
-							className={`group relative flex w-full cursor-pointer items-center gap-4 px-2 py-3 children:flex-2 children:px-2`}
-							key={msg.createdAt.toString() + idx}
-						>
-							<div
-								className={`absolute left-0 top-0 h-full !w-1 flex-grow-0 basis-0 overflow-hidden rounded-full bg-indigo-500 !px-0 opacity-0 group-hover:opacity-100`}
-							></div>
-							<p>{msg.name}</p>
-							<p className="group flex items-center gap-2">
-								{msg.email}
-								<span
-									onClick={() => copy(msg.email)}
-									className="text-xl opacity-0 transition-opacity duration-200 hover:!opacity-70 group-hover:opacity-100"
-								>
-									<FiCopy />
-								</span>
-							</p>
-							<p className="font-mono text-sm">
-								{dayjs(msg.createdAt).format('YYYY-MM-DD HH:mm:ss')}
-							</p>
-							<p className="flex !flex-1/2 cursor-pointer justify-center text-xl">
-								<span onClick={() => handleToggleMessageRead(msg)} className="w-fit">
-									{msg.isRead ? <BsFillCheckSquareFill /> : <ImCheckboxUnchecked />}
-								</span>
-							</p>
-							<p className="flex !flex-1/2 cursor-pointer justify-center text-xl opacity-0 transition-opacity duration-200 group-hover:opacity-100">
-								<span
-									onClick={() => handleDeleteMessage(msg)}
-									className="text-2xl transition-opacity duration-200 hover:opacity-70"
-								>
-									<MdDeleteForever />
-								</span>
-							</p>
-						</m.div>
-					);
-				})
-			) : (
-				<m.div className='text-center py-6 font-semibold'>No messages yet</m.div>
-			)}
+			<div className="custom-scrollbar flex flex-1 basis-0 flex-col overflow-y-auto">
+				{/* message rows */}
+				{messages && messages.length !== 0 ? (
+					messages.map((msg, idx) => {
+						return (
+							<m.div
+								className={`group relative flex w-full cursor-pointer items-center gap-4 px-2 py-3 children:flex-2 children:px-2`}
+								key={msg.createdAt.toString() + idx}
+							>
+								<div
+									className={`absolute left-0 top-0 h-full !w-1 flex-grow-0 basis-0 overflow-hidden rounded-full bg-indigo-500 !px-0 opacity-0 group-hover:opacity-100`}
+								></div>
+								<p>{msg.name}</p>
+								<p className="group flex items-center gap-2">
+									{msg.email}
+									<span
+										onClick={() => copy(msg.email)}
+										className="text-xl opacity-0 transition-opacity duration-200 hover:!opacity-70 group-hover:opacity-100"
+									>
+										<FiCopy />
+									</span>
+								</p>
+								<p className="font-mono text-sm">
+									{dayjs(msg.createdAt).format('YYYY-MM-DD HH:mm:ss')}
+								</p>
+								<p className="flex !flex-1/2 cursor-pointer justify-center text-xl">
+									<span onClick={() => handleToggleMessageRead(msg)} className="w-fit">
+										{msg.isRead ? <BsFillCheckSquareFill /> : <ImCheckboxUnchecked />}
+									</span>
+								</p>
+								<p className="flex !flex-1/2 cursor-pointer justify-center text-xl opacity-0 transition-opacity duration-200 group-hover:opacity-100">
+									<span
+										onClick={() => handleDeleteMessage(msg)}
+										className="text-2xl transition-opacity duration-200 hover:opacity-70"
+									>
+										<MdDeleteForever />
+									</span>
+								</p>
+							</m.div>
+						);
+					})
+				) : (
+					<m.div className="py-6 text-center font-semibold">No messages yet</m.div>
+				)}
+			</div>
 		</div>
 	);
 };
