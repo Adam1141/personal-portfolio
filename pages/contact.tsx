@@ -193,7 +193,7 @@ const Contact = () => {
 				{/* send button */}
 				<m.button
 					onClick={() => handleSendMessage()}
-					initial={{ opacity: 0, x: -100 }}
+					initial={{ opacity: 0, x: -160 }}
 					animate={{ opacity: 1, x: 0 }}
 					transition={{ duration: T_STEP_S * 4, delay: T_STEP_S * 5 }}
 					exit={{ opacity: 0, x: 100 }}
