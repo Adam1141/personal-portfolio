@@ -73,9 +73,7 @@ const MessageInfoModal: FC<IMessageInfoModalProps> = ({
 								<span className="font-semibold text-gray-200 text-opacity-70">
 									From:
 								</span>
-								<span className="max-w-96 truncate font-mono">
-									{msg?.name ?? ''}
-								</span>
+								<span className="max-w-96 truncate font-mono">{msg?.name ?? ''}</span>
 							</p>
 						</div>
 						<div className="w-full">
@@ -83,15 +81,13 @@ const MessageInfoModal: FC<IMessageInfoModalProps> = ({
 								<span className="font-semibold text-gray-200 text-opacity-70">
 									Email:
 								</span>
-								<span className="max-w-96 truncate font-mono">
-									{msg?.email ?? ''}
-								</span>
+								<span className="max-w-96 truncate font-mono">{msg?.email ?? ''}</span>
 								<span
 									onClick={(e) => {
 										e.stopPropagation();
 										copy(msg.email);
 									}}
-									className="text-xl transition-opacity duration-200 hover:!opacity-70 group-hover:opacity-100 cursor-pointer"
+									className="cursor-pointer text-xl transition-opacity duration-200 hover:!opacity-70 group-hover:opacity-100"
 								>
 									<FiCopy />
 								</span>
@@ -100,7 +96,6 @@ const MessageInfoModal: FC<IMessageInfoModalProps> = ({
 
 						{/* message textarea */}
 						<m.textarea
-							disabled
 							initial={{ opacity: 0 }}
 							animate={{ opacity: 1 }}
 							transition={{ duration: T_STEP_S * 2 }}
@@ -110,7 +105,7 @@ const MessageInfoModal: FC<IMessageInfoModalProps> = ({
 							id="message"
 							cols={30}
 							rows={10}
-							defaultValue={msg?.message}
+							defaultValue={msg?.message ?? ''}
 							placeholder={`message..`}
 						></m.textarea>
 					</div>

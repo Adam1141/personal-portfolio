@@ -1,6 +1,7 @@
 import prisma from '../../lib/prisma';
 import { NextApiRequest, NextApiResponse } from 'next';
 import applyRateLimit from '../../lib/rateLimit';
+import { validateMessageFields } from '../../lib/otherHelpers';
 
 export default async function handler(
 	req: NextApiRequest,
@@ -14,11 +15,24 @@ export default async function handler(
 	}
 
 	try {
+		try {
+			validateMessageFields({
+				name: req.body.name,
+				email: req.body.email,
+				message: req.body.message,
+			});
+		} catch (e) {
+			return res.send({
+				ok: false,
+				msg: e.message,
+			});
+		}
+
 		// rate limit for messages 2 -> 15 minutes
 		// if limit is reached will send a response
 		// and stop further execution on the req
 		await applyRateLimit(req, res);
-		
+
 		const newMsg = await prisma.message.create({
 			data: {
 				name: req.body.name,

@@ -16,3 +16,9 @@ export type MessagesFilter = {
 	name: string;
 	email: string;
 };
+
+export type MessageFieldsObject = {
+	name: string;
+	email: string;
+	message: string;
+};

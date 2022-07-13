@@ -1,11 +1,12 @@
 import { m } from 'framer-motion';
 import { useState } from 'react';
 import TextInput from '../components/TextInput';
-import { EMAIL, T_STEP_S } from '../constants';
+import { EMAIL, MAX_MESSAGE_LEN, T_STEP_S } from '../constants';
 import { useSnackbar } from 'notistack';
-import validator from 'validator';
 import { FiCopy } from 'react-icons/fi';
 import copy from 'copy-to-clipboard';
+import { MessageFieldsObject } from '../@types/types';
+import { validateMessageFields } from '../lib/otherHelpers';
 
 const Contact = () => {
 	const [name, setName] = useState('');
@@ -14,26 +15,17 @@ const Contact = () => {
 
 	const { enqueueSnackbar, closeSnackbar } = useSnackbar();
 
-	function getMessageFields() {
+	function getMessageFields(): MessageFieldsObject {
 		// returns a message object or throws an error
 		// with a descriptive message
-		const fieldsObj = {
-			name,
-			email,
-			message,
+		const fieldsObj: MessageFieldsObject = {
+			name: name.trim(),
+			email: email.trim(),
+			message: message.trim(),
 		};
 
-		// check that no fields are empty
-		Object.entries(fieldsObj).forEach(([k, v]) => {
-			if (typeof v !== 'string' || v.trim() === '') {
-				throw new Error(`${k} cannot be empty`);
-			}
-		});
-
-		// validate email
-		if (!validator.isEmail(fieldsObj.email)) {
-			throw new Error(`"${fieldsObj.email}" is not a valid email address`);
-		}
+		// throws an error if something is wrong
+		validateMessageFields(fieldsObj);
 
 		return fieldsObj;
 	}
@@ -173,22 +165,29 @@ const Contact = () => {
 				</div>
 
 				{/* message textarea */}
-				<m.textarea
+				<m.div
+					className="relative flex w-full flex-col"
 					initial={{ opacity: 0, x: -50, y: 50 }}
 					animate={{ opacity: 1, x: 0, y: 0 }}
 					transition={{ duration: T_STEP_S * 4, delay: T_STEP_S * 4 }}
 					exit={{ opacity: 0, x: 100 }}
-					className="custom-scrollbar h-full max-h-96 overflow-hidden overflow-y-auto rounded-lg border-2 border-gray-500 bg-transparent px-4 py-2 transition-colors duration-200 focus:!border-indigo-700 focus:!outline-none"
-					name="Message"
-					id="message"
-					cols={30}
-					rows={10}
-					value={message}
-					onChange={(e) => {
-						setMessage(e.target.value);
-					}}
-					placeholder={`message..`}
-				></m.textarea>
+				>
+					<m.textarea
+						className="custom-scrollbar h-full max-h-96 w-full overflow-hidden overflow-y-auto rounded-lg border-2 border-gray-500 bg-transparent px-4 py-2 transition-colors duration-200 focus:!border-indigo-700 focus:!outline-none"
+						name="Message"
+						id="message"
+						cols={30}
+						rows={10}
+						value={message}
+						onChange={(e) => {
+							setMessage(e.target.value);
+						}}
+						placeholder={`message..`}
+					></m.textarea>
+					<p className="self-end text-gray-200 text-opacity-70">
+						{message.trim().length}/{MAX_MESSAGE_LEN}
+					</p>
+				</m.div>
 
 				{/* send button */}
 				<m.button
