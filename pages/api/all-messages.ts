@@ -1,6 +1,6 @@
-import prisma from '../../lib/prisma';
 import { NextApiRequest, NextApiResponse } from 'next';
 import { sessionValidityCheck, withSessionRoute } from '../../lib/withSession';
+import { getAllMessages } from '../../lib/otherHelpersBE';
 
 export default withSessionRoute(handler);
 async function handler(req: NextApiRequest, res: NextApiResponse) {
@@ -13,14 +13,14 @@ async function handler(req: NextApiRequest, res: NextApiResponse) {
 		});
 	}
 
-	if (req.method !== 'GET') {
+	if (req.method !== 'POST') {
 		return res.send({
 			ok: false,
 			msg: `The HTTP ${req.method} method is not supported at this route.`,
 		});
 	}
 	try {
-		const allMessages = await getAllMessages();
+		const allMessages = await getAllMessages(req.body);
 		// console.log('allMessages: ', allMessages);
 		return res.send({ ok: true, messages: allMessages });
 	} catch (e) {
@@ -28,11 +28,3 @@ async function handler(req: NextApiRequest, res: NextApiResponse) {
 	}
 }
 
-export async function getAllMessages() {
-	return await prisma.message.findMany({
-		take: 100,
-		orderBy: {
-			createdAt: 'desc',
-		},
-	});
-}

@@ -6,7 +6,7 @@ import { useSnackbar } from 'notistack';
 import { FiCopy } from 'react-icons/fi';
 import copy from 'copy-to-clipboard';
 import { MessageFieldsObject } from '../@types/types';
-import { validateMessageFields } from '../lib/otherHelpers';
+import { validateMessageFields } from '../lib/otherHelpersFE';
 
 const Contact = () => {
 	const [name, setName] = useState('');

@@ -1,8 +1,12 @@
-import { MessageFieldsObject } from "../@types/types";
-import { MAX_NAME_LEN, MAX_EMAIL_LEN, MAX_MESSAGE_LEN } from "../constants";
+// for frontend use only
+
+import { MessageFieldsObject } from '../@types/types';
+import { MAX_NAME_LEN, MAX_EMAIL_LEN, MAX_MESSAGE_LEN } from '../constants';
 import validator from 'validator';
 
 export function validateMessageFields(fieldsObj: MessageFieldsObject) {
+	// throws an error if something is invalid
+
 	// check that no fields are empty
 	Object.entries(fieldsObj).forEach(([k, v]) => {
 		if (typeof v !== 'string' || v.trim() === '') {

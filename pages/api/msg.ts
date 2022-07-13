@@ -1,7 +1,7 @@
 import prisma from '../../lib/prisma';
 import { NextApiRequest, NextApiResponse } from 'next';
 import applyRateLimit from '../../lib/rateLimit';
-import { validateMessageFields } from '../../lib/otherHelpers';
+import { validateMessageFields } from '../../lib/otherHelpersBE';
 
 export default async function handler(
 	req: NextApiRequest,

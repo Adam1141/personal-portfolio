@@ -11,6 +11,10 @@ export const MAX_NAME_LEN = 100;
 export const MAX_EMAIL_LEN = 321;
 export const MAX_MESSAGE_LEN = 2000;
 
+// api
+export const DEFAULT_MESSAGES_LIMIT = 100;
+export const MAX_MESSAGES_LIMIT = 1000;
+
 // other
 export const YEAR_BORN = 2000;
 export const MONTH_BORN = 5;

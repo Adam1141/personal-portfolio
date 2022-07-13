@@ -1,7 +1,8 @@
 import { m } from 'framer-motion';
 import MessageList from '../../components/MessagesList';
+import { getAllMessages } from '../../lib/otherHelpersBE';
 import { sessionValidityCheck, withSessionSsr } from '../../lib/withSession';
-import { getAllMessages } from '../api/all-messages';
+
 
 const Messages = ({ initialMessages }) => {
 	return (

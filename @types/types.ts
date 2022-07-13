@@ -8,13 +8,15 @@ export type CustomLink = {
 };
 
 export type MessagesFilter = {
-	show: 'read' | 'unread' | 'all';
-	time: {
-		start?: number | Date;
-		end?: number | Date;
+	show?: 'read' | 'unread' | 'all';
+	time?: {
+		start?: number;
+		end?: number;
 	};
-	name: string;
-	email: string;
+	name?: string;
+	email?: string;
+	skip?: number;
+	limit?: number;
 };
 
 export type MessageFieldsObject = {
