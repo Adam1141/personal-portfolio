@@ -56,7 +56,7 @@ export default function Layout({ children }) {
 	}
 
 	return (
-		<div className="flex h-screen w-screen flex-col overflow-y-auto overflow-x-hidden">
+		<div className="flex h-screen w-screen flex-col sm:overflow-hidden overflow-y-auto overflow-x-hidden">
 			<div className="bg-gradient-div fixed z-[-100] bg-indigo-500"></div>
 			<div className="relative z-10 mx-auto flex w-full max-w-6xl flex-1 flex-col">
 				{!shouldHideNavbar() && <Navbar />}
