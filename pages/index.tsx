@@ -105,7 +105,7 @@ export default function Home() {
 			className="flex h-full flex-col gap-4 p-10 sm:pl-20 sm:pt-20"
 		>
 			<h1 className="mb-6 flex flex-col gap-4 font-finlandica text-4xl sm:text-5xl">
-				<span className="">Hi, I'm Adam.</span>
+				<span className="">Hi, I&apos;m Adam.</span>
 				<span className="text-gray-400">A Full Stack Developer</span>
 				<span className="text-gray-600">based in Israel.</span>
 			</h1>

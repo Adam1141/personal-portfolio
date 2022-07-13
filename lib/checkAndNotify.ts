@@ -1,6 +1,10 @@
 import dayjs from 'dayjs';
 import schedule from 'node-schedule';
+import { sendEmail } from './mailGunClient';
 import prisma from './prisma';
+
+// if initCheckAndNotify ran or not
+let started = false;
 
 async function countOfMessagesPast24Hours(): Promise<number> {
 	const count = await prisma.message.count({
@@ -30,11 +34,23 @@ export async function initCheckAndNotify() {
 	// schedule.scheduleJob('*/1 * * * * *', () => {
 	// 	console.log(`it is ${Date.now()} right now.`);
 	// });
-	schedule.scheduleJob('* 20 * * *', async () => {
-		console.log(
-			`time now is ${new Date().toISOString()} - number of messages in the past 24 hours -> ${await countOfMessagesPast24Hours()}`,
-		);
+
+
+	// every day at 8p.m check if there are any messages
+	// send me an email if there are any new messages
+	schedule.scheduleJob('0 20 * * *', async () => {
+		const msgCount = await countOfMessagesPast24Hours();
+		if (msgCount >= 0) {
+			await sendEmail(
+				process.env.EMAIL_TO_NOTIFY,
+				'New Messages',
+				`You have ${msgCount} new messages. \n${process.env.SERVER}/cant-touch-dis/login`,
+			);
+		}
 	});
 }
 
-initCheckAndNotify();
+if (!started) {
+	started = true;
+	initCheckAndNotify();
+}

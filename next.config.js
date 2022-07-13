@@ -18,6 +18,6 @@ module.exports = () => {
 				'Content-Type': 'application/json',
 			},
 		});
-	}, 30 * 1000);
+	}, 60 * 1000);
 	return nextConfig;
 };
