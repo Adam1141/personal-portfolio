@@ -96,6 +96,7 @@ const MessageInfoModal: FC<IMessageInfoModalProps> = ({
 
 						{/* message textarea */}
 						<m.textarea
+							disabled
 							initial={{ opacity: 0 }}
 							animate={{ opacity: 1 }}
 							transition={{ duration: T_STEP_S * 2 }}

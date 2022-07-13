@@ -10,6 +10,7 @@ import { FiCopy } from 'react-icons/fi';
 import copy from 'copy-to-clipboard';
 import { useSnackbar } from 'notistack';
 import MessageInfoModal from './MessageInfoModal';
+import MessagesControl from './MessagesControl';
 
 interface IMessageListProps {
 	initialMessages: MessageType[];
@@ -80,32 +81,14 @@ const MessageList: FC<IMessageListProps> = ({ initialMessages }) => {
 		}
 	}
 
-	function showFetchedMessagesSnackbar() {
-		enqueueSnackbar(
-			`${
-				messages && messages.length > 0
-					? `${messages.length} messages found`
-					: `no messages found`
-			} `,
-			{
-				variant: messages && messages.length > 0 ? 'success' : 'warning',
-				anchorOrigin: {
-					horizontal: 'center',
-					vertical: 'top',
-				},
-				className: `${
-					messages && messages.length > 0 ? `!bg-indigo-500` : `!bg-yellow-600`
-				}`,
-			},
-		);
-	}
-
 	useEffect(() => {
 		// showFetchedMessagesSnackbar();
 	}, []);
 
 	return (
 		<div className="custom-scrollbar flex w-full flex-1 basis-0 flex-col gap-0 overflow-auto">
+			<MessagesControl setMessages={setMessages} />
+
 			{/* list header row div */}
 			<m.div
 				className={`flex w-full min-w-5xl gap-4 bg-gray-900 px-2 py-2 children:px-2 children:font-semibold `}
@@ -140,7 +123,7 @@ const MessageList: FC<IMessageListProps> = ({ initialMessages }) => {
 											e.stopPropagation();
 											copy(msg.email);
 										}}
-										className="text-xl sm:opacity-0 transition-opacity duration-200 hover:!opacity-70 group-hover:opacity-100"
+										className="text-xl transition-opacity duration-200 hover:!opacity-70 group-hover:opacity-100 sm:opacity-0"
 									>
 										<FiCopy />
 									</span>
@@ -159,7 +142,7 @@ const MessageList: FC<IMessageListProps> = ({ initialMessages }) => {
 										{msg.isRead ? <BsFillCheckSquareFill /> : <ImCheckboxUnchecked />}
 									</span>
 								</p>
-								<p className="flex !flex-1/2 cursor-pointer justify-center text-xl sm:opacity-0 transition-opacity duration-200 group-hover:opacity-100">
+								<p className="flex !flex-1/2 cursor-pointer justify-center text-xl transition-opacity duration-200 group-hover:opacity-100 sm:opacity-0">
 									<span
 										onClick={(e) => {
 											e.stopPropagation();

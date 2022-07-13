@@ -3,7 +3,6 @@ import MessageList from '../../components/MessagesList';
 import { getAllMessages } from '../../lib/otherHelpersBE';
 import { sessionValidityCheck, withSessionSsr } from '../../lib/withSession';
 
-
 const Messages = ({ initialMessages }) => {
 	return (
 		<m.div className="flex h-full w-full flex-col">

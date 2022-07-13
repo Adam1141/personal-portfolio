@@ -7,8 +7,10 @@ export type CustomLink = {
 	path: string;
 };
 
+export type MessageShowType = 'read' | 'unread' | 'all';
+
 export type MessagesFilter = {
-	show?: 'read' | 'unread' | 'all';
+	show?: MessageShowType;
 	time?: {
 		start?: number;
 		end?: number;
