@@ -36,13 +36,13 @@ const Project: FC<IProjectProps> = ({ project, className }) => {
 					{project.technologies.map((t, idx) => {
 						return (
 							<div
+								key={`${t}${idx}`}
 								onClick={() => {
 									window.open(`http://google.com/search?q=${t}`);
 								}}
 								className="cursor-pointer transition-all duration-200 hover:scale-110 hover:opacity-70"
 							>
 								<Image
-									key={`${t}${idx}`}
 									width={48}
 									height={48}
 									alt={`${t} logo`}
