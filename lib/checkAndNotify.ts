@@ -40,7 +40,7 @@ export async function initCheckAndNotify() {
 	// send me an email if there are any new messages
 	schedule.scheduleJob('0 20 * * *', async () => {
 		const msgCount = await countOfMessagesPast24Hours();
-		if (msgCount >= 0) {
+		if (msgCount > 0) {
 			await sendEmail(
 				process.env.EMAIL_TO_NOTIFY,
 				'New Messages',

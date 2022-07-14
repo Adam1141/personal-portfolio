@@ -118,3 +118,23 @@ export const PROJECTS_LIST: IProject[] = [
 		technologies: ['Python'],
 	},
 ];
+
+export const TECH_ICONS_MAP = {
+	Android: 'android.svg',
+	CSS: 'css-3.svg',
+	Express: 'express.svg',
+	HTML: 'html-5.svg',
+	Java: 'java.svg',
+	JavaScript: 'javascript.svg',
+	MongoDB: 'mongodb.svg',
+	MySQL: 'mysql-icon.svg',
+	NextJS: 'nextjs-icon.svg',
+	NodeJS: 'nodejs-icon.svg',
+	PHP: 'php.svg',
+	Prisma: 'prisma.svg',
+	Python: 'python.svg',
+	React: 'react.svg',
+	SQLite: 'sqlite.svg',
+	Tailwind: 'tailwindcss-icon.svg',
+	TypeScript: 'typescript-icon.svg',
+};
