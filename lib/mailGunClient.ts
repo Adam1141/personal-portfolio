@@ -1,8 +1,12 @@
-import mailgun from 'mailgun-js';
+import formData from 'form-data';
+import Mailgun from 'mailgun.js';
+import Client from 'mailgun.js/client';
 
-let mg: mailgun.Mailgun | null = null;
+const mailgun = new Mailgun(formData);
 
-function getMailgunClient(): mailgun.Mailgun {
+let mg: Client | null = null;
+
+function getMailgunClient(): Client {
 	if (mg !== null) return mg;
 	const mgApiKey = process.env.MG_API_KEY;
 	const mgDomain = process.env.MG_DOMAIN;
@@ -10,7 +14,7 @@ function getMailgunClient(): mailgun.Mailgun {
 		if (v === undefined)
 			throw new Error('some of Mailgun env vars are undefined!!');
 	});
-	mg = mailgun({ apiKey: mgApiKey!, domain: mgDomain! });
+	mg = mailgun.client({ username: 'api', key: mgApiKey });
 	return mg;
 }
 
@@ -20,7 +24,7 @@ export async function sendEmail(
 	content: string,
 	isText: boolean = true,
 ) {
-	const data: mailgun.messages.SendData = {
+	const data = {
 		from: `Adam Portfolio <adam@${process.env.MG_DOMAIN ?? 'mybutterfly.xyz'}>`,
 		to: to,
 		subject: subject,
@@ -29,13 +33,11 @@ export async function sendEmail(
 	};
 
 	let mg = getMailgunClient();
-	mg.messages().send(data, function (error, body) {
-		if (error) {
-			console.log('mailgun error: ', error);
-			return;
-		}
-		console.log(body);
-	});
+
+	mg.messages
+		.create(process.env.MG_DOMAIN ?? 'mybutterfly.xyz', data)
+		.then(console.log)
+		.catch((e) => console.log('mailgun error: ', e.message));
 }
 
 export default getMailgunClient();

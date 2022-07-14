@@ -26,3 +26,11 @@ export type MessageFieldsObject = {
 	email: string;
 	message: string;
 };
+export interface IProject {
+	id: number | string;
+	name: string;
+	description: string;
+	url: string;
+	imgUrl: string;
+	technologies: string[];
+}

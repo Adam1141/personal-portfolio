@@ -56,9 +56,9 @@ export default function Layout({ children }) {
 	}
 
 	return (
-		<div className="flex h-screen w-screen flex-col sm:overflow-hidden overflow-y-auto overflow-x-hidden">
+		<div className="flex h-screen w-screen flex-col">
 			<div className="bg-gradient-div fixed z-[-100] bg-indigo-500"></div>
-			<div className="relative z-10 mx-auto flex w-full max-w-6xl flex-1 flex-col">
+			<div className="relative z-10 mx-auto flex w-full max-w-6xl flex-1 flex-col overflow-y-auto sm:overflow-hidden ">
 				{!shouldHideNavbar() && <Navbar />}
 				{shouldShowLogout() && (
 					<button
@@ -68,7 +68,9 @@ export default function Layout({ children }) {
 						Logout
 					</button>
 				)}
-				<div className="flex w-full flex-1 flex-col">{children}</div>
+				<div className="flex w-full flex-1 flex-col overflow-hidden">
+					{children}
+				</div>
 			</div>
 		</div>
 	);
