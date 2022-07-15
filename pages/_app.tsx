@@ -28,7 +28,7 @@ function MyApp({ Component, pageProps }) {
 								<meta name="keywords" content="titla, meta, nextjs" />
 								<meta name="author" content="Syamlal CM" />
 								<meta name="viewport" content="width=device-width, initial-scale=1.0" />
-								<title>Adam's Portfolio</title>
+								<title>Adam&apos;s Portfolio</title>
 								<link rel="shortcut icon" href="/favicon/favicon.ico" />
 								<link
 									rel="apple-touch-icon"

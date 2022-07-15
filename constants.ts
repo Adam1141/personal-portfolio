@@ -8,7 +8,7 @@ export const LINKEDIN_URL = 'https://www.linkedin.com/in/adamhussein1';
 export const EMAIL = 'adam.huss1141@gmail.com';
 
 // ********** CHANGE ON DEPLOY  **********
-export const WEBSITE_URL = 'http://localhost:3000';
+export const WEBSITE_URL = 'http://adamhuss.dev';
 
 // transition constants
 export const T_PAGE_SWAP_S = 0.25;

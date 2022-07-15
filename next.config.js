@@ -15,6 +15,6 @@ module.exports = () => {
 		fetch(`${process.env.SERVER}/api/start-jobs`, {
 			method: 'POST',
 		});
-	}, 60 * 1000);
+	}, 5 * 60 * 1000);
 	return nextConfig;
 };

@@ -7,7 +7,7 @@ const Work = () => {
 	return (
 		<>
 			<Head>
-				<title>Work - Projects I've worked on lately</title>
+				<title>Work - Projects I&apos;ve worked on lately</title>
 				<meta
 					name="description"
 					content={`Here you can see some projects that I have worked on lately.`}
