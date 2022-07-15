@@ -35,10 +35,15 @@ export async function initCheckAndNotify() {
 	// 	console.log(`it is ${Date.now()} right now.`);
 	// });
 
-
-	// every day at 8p.m check if there are any messages
+	// every day at 5p.m UTC check if there are any messages
 	// send me an email if there are any new messages
-	schedule.scheduleJob('0 20 * * *', async () => {
+
+	const rule = new schedule.RecurrenceRule();
+	rule.hour = 17;
+	rule.minute = 0;
+	rule.tz = 'Etc/UTC';
+
+	schedule.scheduleJob(rule, async () => {
 		const msgCount = await countOfMessagesPast24Hours();
 		if (msgCount > 0) {
 			await sendEmail(
