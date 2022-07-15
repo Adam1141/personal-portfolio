@@ -25,8 +25,8 @@ function MyApp({ Component, pageProps }) {
 						>
 							<Head>
 								<meta charSet="UTF-8" />
-								<meta name="keywords" content="titla, meta, nextjs" />
-								<meta name="author" content="Syamlal CM" />
+								<meta name="keywords" content="portfolio, adam hussein, full stack, developer" />
+								<meta name="author" content="Adam Hussein" />
 								<meta name="viewport" content="width=device-width, initial-scale=1.0" />
 								<title>Adam&apos;s Portfolio</title>
 								<link rel="shortcut icon" href="/favicon/favicon.ico" />
