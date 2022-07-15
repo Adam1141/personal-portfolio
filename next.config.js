@@ -14,9 +14,6 @@ module.exports = () => {
 	setTimeout(() => {
 		fetch(`${process.env.SERVER}/api/start-jobs`, {
 			method: 'POST',
-			headers: {
-				'Content-Type': 'application/json',
-			},
 		});
 	}, 60 * 1000);
 	return nextConfig;

@@ -69,7 +69,13 @@ const Navbar = () => {
 			<Link href="/">
 				<a
 					ref={adamRef}
-					onClick={() => clicksFreq()}
+					onClick={(e) => {
+						if (openSesame) {
+							// to prevent totalClicksToOpen + 1 from going to /
+							e.preventDefault();
+						}
+						clicksFreq();
+					}}
 					className="px-4 text-xl transition-all duration-500 hover:bg-gray-700 hover:bg-opacity-10 sm:px-6"
 				>
 					Adam.H

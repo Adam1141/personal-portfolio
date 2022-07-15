@@ -25,20 +25,25 @@ export default function Home() {
 	const thisPageRef = useRef<HTMLDivElement | null>(null);
 
 	useEffect(() => {
-		const resizeObserver = new ResizeObserver(() => {
-			if (moreDivRef?.current) {
+		let resizeObserver;
+		if (moreDivRef?.current) {
+			resizeObserver = new ResizeObserver(() => {
 				const myDiv = moreDivRef.current;
 				myDiv?.scrollIntoView({
 					behavior: 'smooth',
 					block: 'end',
 					inline: 'nearest',
 				});
-			}
-		});
-		if (thisPageRef?.current) {
-			resizeObserver.observe(thisPageRef.current);
+			});
+
+			resizeObserver.observe(moreDivRef.current);
+
+			// if (thisPageRef?.current) {
+			// 	resizeObserver.observe(thisPageRef.current);
+			// }
 		}
-		return () => resizeObserver.disconnect();
+
+		return () => resizeObserver?.disconnect();
 	}, []);
 
 	useEffect(() => {
@@ -102,7 +107,8 @@ export default function Home() {
 	return (
 		<div
 			ref={thisPageRef}
-			className="flex h-full flex-col gap-4 p-10 sm:pl-20 sm:pt-20"
+			id="index-page"
+			className="flex-1 gap-4 overflow-y-auto p-10 sm:pl-20 sm:pt-20"
 		>
 			<h1 className="mb-6 flex flex-col gap-4 font-finlandica text-4xl sm:text-5xl">
 				<span className="">Hi, I&apos;m Adam.</span>
@@ -111,11 +117,12 @@ export default function Home() {
 			</h1>
 
 			<div
+				id="about-me-container"
 				ref={moreDivRef}
-				className={`mb-4 min-h-48 w-full max-w-lg pb-5 text-justify leading-7 sm:min-h-48
-				 sm:pb-10`}
+				className={`mb-4 min-h-72 w-full max-w-lg flex-1 pb-5 text-justify leading-7 sm:pb-10`}
 			>
 				<m.p
+					id="type-writer-paragraph"
 					ref={morePRef}
 					initial={{ opacity: 0, scale: 0.95 }}
 					animate={{ opacity: 1, scale: 1 }}
@@ -143,33 +150,35 @@ export default function Home() {
 				</Link>
 			</div>
 
-			{/* github link */}
-			<m.a
-				initial={{ opacity: 0 }}
-				animate={{ opacity: 1 }}
-				transition={{ delay: T_PAGE_SWAP_S * 2, duration: T_PAGE_SWAP_S }}
-				href={GITHUB_URL}
-				className="group flex w-fit items-center gap-2 px-2 py-1 text-3xl children:text-gray-200 "
-			>
-				<BsGithub className="transition-opacity duration-1000 group-hover:opacity-50" />
-				<p className="w-0 overflow-hidden text-2xl transition-all duration-500 group-hover:w-32 group-hover:text-opacity-70">
-					GitHub
-				</p>
-			</m.a>
+			<div className='flex flex-col gap-4'>
+				{/* github link */}
+				<m.a
+					initial={{ opacity: 0 }}
+					animate={{ opacity: 1 }}
+					transition={{ delay: T_PAGE_SWAP_S * 2, duration: T_PAGE_SWAP_S }}
+					href={GITHUB_URL}
+					className="group flex w-fit items-center gap-2 px-2 py-1 text-3xl children:text-gray-200 "
+				>
+					<BsGithub className="transition-opacity duration-1000 group-hover:opacity-50" />
+					<p className="w-0 overflow-hidden text-2xl transition-all duration-500 group-hover:w-32 group-hover:text-opacity-70">
+						GitHub
+					</p>
+				</m.a>
 
-			{/* linkedin link */}
-			<m.a
-				initial={{ opacity: 0 }}
-				animate={{ opacity: 1 }}
-				transition={{ delay: T_PAGE_SWAP_S * 3, duration: T_PAGE_SWAP_S }}
-				href={LINKEDIN_URL}
-				className="group flex w-fit items-center gap-2 px-2 py-1 text-3xl children:text-gray-200"
-			>
-				<BsLinkedin className="transition-opacity duration-1000 group-hover:opacity-50" />
-				<p className="w-0 overflow-hidden text-2xl transition-all duration-500 group-hover:w-32 group-hover:text-opacity-70">
-					LinkedIn
-				</p>
-			</m.a>
+				{/* linkedin link */}
+				<m.a
+					initial={{ opacity: 0 }}
+					animate={{ opacity: 1 }}
+					transition={{ delay: T_PAGE_SWAP_S * 3, duration: T_PAGE_SWAP_S }}
+					href={LINKEDIN_URL}
+					className="group flex w-fit items-center gap-2 px-2 py-1 text-3xl children:text-gray-200"
+				>
+					<BsLinkedin className="transition-opacity duration-1000 group-hover:opacity-50" />
+					<p className="w-0 overflow-hidden text-2xl transition-all duration-500 group-hover:w-32 group-hover:text-opacity-70">
+						LinkedIn
+					</p>
+				</m.a>
+			</div>
 		</div>
 	);
 }
