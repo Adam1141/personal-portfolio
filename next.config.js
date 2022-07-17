@@ -5,13 +5,17 @@
 const nextConfig = {
 	reactStrictMode: false,
 	swcMinify: true,
+	i18n: {
+		locales: ['en'],
+		defaultLocale: 'en',
+	},
 };
 
 module.exports = () => {
 	const intervalToken = setInterval(async () => {
 		const result = await fetch(`${process.env.SERVER}/api/start-jobs`, {
 			method: 'POST',
-		}).then((response => response.json()));
+		}).then((response) => response.json());
 
 		// jobs started..
 		if (result?.ok === true) {
