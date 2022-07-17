@@ -8,13 +8,15 @@ const nextConfig = {
 };
 
 module.exports = () => {
-	// call endpoint to start jobs
-	// at the moment i could not find another good solution
-	// today is 2022-07-12 Tuesday
-	setTimeout(() => {
-		fetch(`${process.env.SERVER}/api/start-jobs`, {
+	const intervalToken = setInterval(async () => {
+		const result = await fetch(`${process.env.SERVER}/api/start-jobs`, {
 			method: 'POST',
-		});
-	}, 60 * 1000);
+		}).then((response => response.json()));
+
+		// jobs started..
+		if (result?.ok === true) {
+			clearInterval(intervalToken);
+		}
+	}, 10 * 1000);
 	return nextConfig;
 };

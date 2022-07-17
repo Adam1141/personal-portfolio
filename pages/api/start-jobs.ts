@@ -1,4 +1,5 @@
 import { NextApiRequest, NextApiResponse } from 'next';
+import { initCheckAndNotify } from '../../lib/checkAndNotify';
 
 // this route is called from next.config.js
 // it starts jobs (with the help of node-schedule)
@@ -13,7 +14,10 @@ export default async function handler(
 		});
 	}
 
-	await import('../../lib/checkAndNotify');
-
-	return res.send({ ok: true });
+	try {
+		const started = await initCheckAndNotify();
+		return res.send({ ok: started });
+	} catch {
+		return res.send({ ok: false });
+	}
 }
