@@ -21,6 +21,7 @@ jobs:
           echo MG_API_KEY="${{ secrets.MG_API_KEY }}" >> .env.local
           echo MG_DOMAIN="${{ secrets.MG_DOMAIN }}" >> .env.local
           echo EMAIL_TO_NOTIFY="${{ secrets.EMAIL_TO_NOTIFY }}" >> .env.local
+          echo LOCAL_SERVER="${{ secrets.LOCAL_SERVER }}" >> .env.local
           echo SERVER="${{ secrets.SERVER }}" >> .env.local
       - run: npm install
       - run: npm run build

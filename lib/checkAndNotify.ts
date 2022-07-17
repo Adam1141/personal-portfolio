@@ -53,5 +53,6 @@ export async function initCheckAndNotify(): Promise<boolean> {
 			);
 		}
 	});
+	started = true;
 	return true;
 }
