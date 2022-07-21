@@ -75,7 +75,7 @@ const Contact = () => {
 				<title>Contact - Feel free to contact me anytime</title>
 				<meta
 					name="description"
-					content="Feel free to contact me anytime either throw this page or directly to my email."
+					content="Feel free to contact me anytime either through this page or directly to my email."
 				/>
 			</Head>
 			<div className="flex">
@@ -84,7 +84,7 @@ const Contact = () => {
 				>
 					{/* contact directly hint #2, shown on small screens */}
 					<div className="h-fit flex-1 border-l-2 border-indigo-700 px-2 sm:hidden">
-						<h2 className="text-xs">feel free to contact directly at</h2>
+						<h2 className="text-xs">feel free to contact me directly at</h2>
 						<div className="flex items-center gap-2 text-sm">
 							<a
 								className="pl-2 transition-opacity duration-300 hover:opacity-70"
@@ -155,7 +155,7 @@ const Contact = () => {
 							exit={{ opacity: 0, x: 100 }}
 							className="hidden h-fit flex-1 border-l-2 border-indigo-700 px-2 sm:block"
 						>
-							<h2 className="text-xs">feel free to contact directly at</h2>
+							<h2 className="text-xs">feel free to contact me directly at</h2>
 							<div className="flex items-center gap-2 text-sm">
 								<a
 									className="pl-2 transition-opacity duration-300 hover:opacity-70"

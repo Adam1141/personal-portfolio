@@ -143,7 +143,7 @@ export default function Home() {
 							isMoreShown ? 'hidden' : ''
 						}`}
 					>
-						<MdOutlineDoubleArrow fill="rgb(156 163 175 / .7)" /> tell me more
+						<MdOutlineDoubleArrow fill="rgb(156 163 175 / .7)" /> more
 					</p>
 					<Link href="/contact">
 						<button

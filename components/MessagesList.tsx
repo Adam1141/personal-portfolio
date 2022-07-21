@@ -16,24 +16,12 @@ interface IMessageListProps {
 	initialMessages: MessageType[];
 }
 
-function getEmptyMessagesFilter(): MessagesFilter {
-	return {
-		show: 'all',
-		name: '',
-		email: '',
-		time: {},
-	};
-}
-
 const MessageList: FC<IMessageListProps> = ({ initialMessages }) => {
 	const [messages, setMessages] = useState(initialMessages);
-	const [filter, setFilter] = useState<MessagesFilter>(getEmptyMessagesFilter());
 
 	// to view message content (in a modal component)
 	const [isMessageModalOpen, setIsMessageModalOpen] = useState(false);
 	const [currentMessage, setCurrentMessage] = useState<MessageType | null>(null);
-
-	const { enqueueSnackbar, closeSnackbar } = useSnackbar();
 
 	async function handleToggleMessageRead(msg: MessageType) {
 		// toggle message read/unread for a given message
@@ -80,10 +68,6 @@ const MessageList: FC<IMessageListProps> = ({ initialMessages }) => {
 			handleToggleMessageRead(msg);
 		}
 	}
-
-	useEffect(() => {
-		// showFetchedMessagesSnackbar();
-	}, []);
 
 	return (
 		<div className="custom-scrollbar max-w-screen flex h-screen w-full flex-none flex-col overflow-x-hidden overflow-y-auto sm:!overflow-y-hidden">
