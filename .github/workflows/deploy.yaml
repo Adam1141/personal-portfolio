@@ -8,10 +8,11 @@ jobs:
     runs-on: ubuntu-latest
     timeout-minutes: 10
     steps:
-      - uses: actions/checkout@v2
-      - uses: actions/setup-node@v1
-        with: 
-          node-version: 14.17.6
+      - uses: actions/checkout@v3
+      - uses: actions/setup-node@v3
+        with:
+          node-version: 16.16.0
+      - run: npm i --force
 
       - name: 'Create NextJS env file'
         run: |
@@ -24,7 +25,6 @@ jobs:
           echo EMAIL_TO_NOTIFY="${{ secrets.EMAIL_TO_NOTIFY }}" >> .env.local
           echo LOCAL_SERVER="${{ secrets.LOCAL_SERVER }}" >> .env.local
           echo SERVER="${{ secrets.SERVER }}" >> .env.local
-      - run: npm install
       - run: npm run build
 
       - name: Install SSH Key
@@ -50,6 +50,6 @@ jobs:
             git fetch origin main
             git reset --hard FETCH_HEAD
             git clean -d -f --exclude secrets
-            npm install
+            npm i --force
             chown $(whoami) . # PM2 doesn't recognize root user from Github Actions
             pm2 restart run-portfolio

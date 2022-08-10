@@ -1,6 +1,9 @@
 import dayjs from 'dayjs';
 import { IProject } from './@types/types';
 
+// gtag
+export const GTAG = 'G-26ZS06223V';
+
 // me
 export const YEARS_OLD = dayjs().diff(dayjs('2000-01-01'), 'years');
 export const GITHUB_URL = 'https://github.com/adam1141';
